@@ -8,8 +8,8 @@ from src.adapters.publishers import PublisherClient, CommercesRpcClient
 app = FastAPI()
 
 
-@app.get("/")
-async def register_user(
+@app.post("/")
+async def register_new_commerce(
     form: schemas.RegistrationForm, 
     rpc_client: PublisherClient = Depends(CommercesRpcClient)
 ):
