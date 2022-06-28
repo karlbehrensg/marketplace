@@ -1,6 +1,7 @@
+import json
 from fastapi import FastAPI, Depends
 
-from src.domain import schemas
+from src.domain import schemas, models
 from src.adapters.publishers import PublisherClient, CommercesRpcClient
 
 
@@ -12,6 +13,11 @@ async def register_user(
     form: schemas.RegistrationForm, 
     rpc_client: PublisherClient = Depends(CommercesRpcClient)
 ):
-    form_to_string = "message"
-    response = rpc_client.call(form_to_string)
+    commerce = models.Commerce(form.legal_id, form.name, form.email, form.retail_name)
+    body = {
+        "cmd": "create",
+        "data": commerce.__dict__
+    }
+
+    response = rpc_client.call(json.dumps(body))
     return response

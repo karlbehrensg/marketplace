@@ -1,5 +1,6 @@
 import sys
 import os
+import json
 import pika
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -17,9 +18,10 @@ channel = connection.channel()
 channel.queue_declare(queue=settings.commerce_queue)
 
 def on_request(ch, method, props, body):
-    n = body
+    body_to_dict = json.loads(body)
 
-    print(f"[.] Message: {str(n)}")
+    print(f"[.] Message: {body_to_dict}")
+
     response = "response"
 
     ch.basic_publish(
