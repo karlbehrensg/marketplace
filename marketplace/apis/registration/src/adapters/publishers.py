@@ -7,7 +7,11 @@ from config import Settings
 settings = Settings()
 
 
-class CommercesRpcClient:
+class PublisherClient:
+    pass
+
+
+class CommercesRpcClient(PublisherClient):
 
     def __init__(self):
         self.connection = pika.BlockingConnection(
